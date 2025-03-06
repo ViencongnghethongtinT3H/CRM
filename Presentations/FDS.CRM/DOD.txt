@@ -1,0 +1,26 @@
+DefinitionOfDone for BE
+	- Code & Logic
+		- X? lý ??y ?? các case logic, edge cases và validation có trong tài li?u BA	
+		- Code tuân th? ki?n trúc và naming conversion c?a d? án
+	- API Development	
+		- API tuân theo RESTful và cách ??t tên ?ã quy ??nh
+		- Mô t? chi ti?t các API trên tài li?u	
+		- ?ã deploy trên server, s?n sàng cho tích h?p
+		- T?t c? các API GET ??u ph?i có data tr? ra
+	
+DefinitionOfDone for FE	
+	- UI
+		- UI ?úng v?i figmal 
+		- UI tuân th? design system
+		- V?i các form nh?p li?u, ki?m tra ??y ?? logic validate input
+		- Tái s? d?ng các component dùng chung
+	- API Integration
+		- K?t n?i API ?úng contract v?i BE. D? li?u t? BE ???c hi?n th? chính xác theo tài li?u BA
+		- X? lý tr?ng thái loading (loading, error, success) ?úng chu?n (b?t loading v?i các form nhi?u thông tin, ch?m)
+		- Có notification ??y ?? và ?úng v?i message BA ??nh ngh?a
+		- Ki?m th? v?i d? li?u th?c t?
+	- Testing	
+		- Ch?c n?ng ph?i ho?t ??ng ???c trên UAT (??y ?? t? UI ??n giao di?n)
+		- ??y ?? ph?n routing (không fix c?ng URL ?? test)
+		- Không có l?i UI nghiêm tr?ng trên UAT
+		
