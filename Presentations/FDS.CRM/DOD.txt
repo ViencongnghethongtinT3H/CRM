@@ -1,26 +1,25 @@
 DefinitionOfDone for BE
 	- Code & Logic
-		- X? l� ??y ?? c�c case logic, edge cases v� validation c� trong t�i li?u BA	
-		- Code tu�n th? ki?n tr�c v� naming conversion c?a d? �n
+		- Xử lý đầy đủ các case logic, edge cases và validation có trong tài liệu BA	
+		- Code tuân thủ kiến trúc và naming conversion của dự án
 	- API Development	
-		- API tu�n theo RESTful v� c�ch ??t t�n ?� quy ??nh
-		- M� t? chi ti?t c�c API tr�n t�i li?u	
-		- ?� deploy tr�n server, s?n s�ng cho t�ch h?p
-		- T?t c? c�c API GET ??u ph?i c� data tr? ra
+		- API tuân theo RESTful và cách đặt tên đã quy định
+		- Mô tả chi tiết các API trên tài liệu	
+		- Đã deploy trên server, sẵn sàng cho tích hợp
+		- Tất cả các API GET đều phải có data trả ra
 	
 DefinitionOfDone for FE	
 	- UI
-		- UI ?�ng v?i figmal 
-		- UI tu�n th? design system
-		- V?i c�c form nh?p li?u, ki?m tra ??y ?? logic validate input
-		- T�i s? d?ng c�c component d�ng chung
+		- UI đúng với figmal 
+		- UI tuân thủ design system
+		- Với các form nhập liệu, kiểm tra đầy đủ logic validate input
+		- Tái sử dụng các component dùng chung
 	- API Integration
-		- K?t n?i API ?�ng contract v?i BE. D? li?u t? BE ???c hi?n th? ch�nh x�c theo t�i li?u BA
-		- X? l� tr?ng th�i loading (loading, error, success) ?�ng chu?n (b?t loading v?i c�c form nhi?u th�ng tin, ch?m)
-		- C� notification ??y ?? v� ?�ng v?i message BA ??nh ngh?a
-		- Ki?m th? v?i d? li?u th?c t?
+		- Kết nối API đúng contract với BE. Dữ liệu từ BE đươc hiển thị chính xác theo tài liệu BA
+		- Xử lý trạng thái loading (loading, error, success) đúng chuẩn (bật loading với các form nhiều thông tin, chậm)
+		- Có notification đầy đủ và đúng với message BA định nghĩa
+		- Kiểm thử với dữ liệu thực tế
 	- Testing	
-		- Ch?c n?ng ph?i ho?t ??ng ???c tr�n UAT (??y ?? t? UI ??n giao di?n)
-		- ??y ?? ph?n routing (kh�ng fix c?ng URL ?? test)
-		- Kh�ng c� l?i UI nghi�m tr?ng tr�n UAT
-		
+		- Chức năng phải hoạt động được trên UAT (đầy đủ từ UI đến giao diện)
+		- Đầy đủ phần routing (không fix cứng URL để test)
+		- Không có lỗi UI nghiêm trọng trên UAT
