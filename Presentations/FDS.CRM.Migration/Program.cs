@@ -29,6 +29,7 @@ public class Program
 
         services.AddDateTimeProvider();
 
+        // Khởi tạo kết nối tới SQL server
         services.AddPersistence(configuration["ConnectionStrings:CRMDatabase"], Assembly.GetExecutingAssembly().GetName().Name);
 
         // Configure the HTTP request pipeline.

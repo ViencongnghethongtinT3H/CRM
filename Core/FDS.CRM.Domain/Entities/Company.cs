@@ -23,8 +23,8 @@ public class Company : Entity<Guid>, IAggregateRoot
     public CommonSetting? CommonSetting { get; private set; }   // Liên kết vs bảng commonsetting
     public CompanyType CompanyType { get; set; }
     [ForeignKey("User")]
-    public Guid OwnerId { get; private set; }  // Nhân viên kinh doanh Liên kết với bảng user
-    public User User { get; set; }
+    public Guid? OwnerId { get; private set; }  // Nhân viên kinh doanh Liên kết với bảng user
+    public User? User { get; set; }
 
     [StringLength(200)]
     public string? Avatar { get; private set; }
@@ -32,7 +32,7 @@ public class Company : Entity<Guid>, IAggregateRoot
     #region Constructor
     private Company(string name, string description, string? website, string? taxCode, 
                    double? annualRevenue, int? numberOfEmployees, Guid? companyOwnerId,
-                   Guid? industryId, CompanyType companyType, Guid ownerId)
+                   Guid? industryId, CompanyType companyType, Guid? ownerId)
     {
         Id = Guid.NewGuid();
         Name = name;
@@ -52,7 +52,7 @@ public class Company : Entity<Guid>, IAggregateRoot
     #region Business Logic
     public static Company Create(string name, string description, string? website, string? taxCode,
                                double? annualRevenue, int? numberOfEmployees, Guid? companyOwnerId,
-                               Guid? industryId, CompanyType companyType, Guid ownerId)
+                               Guid? industryId, CompanyType companyType, Guid? ownerId)
     {
         return new Company(name, description, website, taxCode, annualRevenue, numberOfEmployees, 
                          companyOwnerId, industryId, companyType, ownerId);

@@ -551,7 +551,7 @@ public static class DbInitializer
             // Cuộc hẹn
             var appointmentActivity = Activity.Create(
                 $"Hẹn gặp khách hàng {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.Appointment,
                 contact.Id
             );
@@ -571,7 +571,7 @@ public static class DbInitializer
             // Cuộc gọi
             var callActivity = Activity.Create(
                 $"Gọi điện cho {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.Call,
                 contact.Id
             );
@@ -587,7 +587,7 @@ public static class DbInitializer
             // Ghi chú
             var noteActivity = Activity.Create(
                 $"Ghi chú về {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.Note,
                 contact.Id
             );
@@ -602,7 +602,7 @@ public static class DbInitializer
             // Nhắc nhở
             var reminderActivity = Activity.Create(
                 $"Nhắc nhở theo dõi {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.Note,
                 contact.Id
             );
@@ -620,7 +620,7 @@ public static class DbInitializer
             // Task
             var taskActivity = Activity.Create(
                 $"Công việc liên quan đến {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.Task,
                 contact.Id
             );
@@ -639,7 +639,7 @@ public static class DbInitializer
             // SMS
             var smsActivity = Activity.Create(
                 $"Gửi SMS cho {contact.Name}",
-                contact.ContactOwnerId,
+                contact.ContactOwnerId.Value,
                 ActivityType.SMS,
                 contact.Id
             );

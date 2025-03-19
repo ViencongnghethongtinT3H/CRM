@@ -52,6 +52,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<Product>> Get(Guid id)
     {
         ValidationException.Requires(id != Guid.Empty, "Invalid Id");
+
         var product = await _dispatcher.DispatchAsync(new GetProductQuery { Id = id, ThrowNotFoundIfNull = true });
         //   var model = product.ToModel();
         return Ok(product);

@@ -11,8 +11,8 @@ public class Contact : Entity<Guid>, IAggregateRoot
     [Required]
     public string Code { get; private set; }  // Mã liên hệ
     [ForeignKey("User")]
-    public Guid ContactOwnerId { get; private set; }  // Nhân viên kinh doanh Liên kết với bảng user
-    public User User { get; set; }
+    public Guid? ContactOwnerId { get; private set; }  // Nhân viên kinh doanh Liên kết với bảng user
+    public User? User { get; set; }
     public Guid PositionId { get; private set; }   // chức danh
     public Position Position { get; private set; }   // chức danh
     public LeadStatusEnum LeadStatus { get; private set; }
@@ -48,7 +48,7 @@ public class Contact : Entity<Guid>, IAggregateRoot
     #endregion
 
     #region Constructor
-    private Contact(string name, string code, Guid contactOwnerId, Guid positionId,
+    private Contact(string name, string code, Guid? contactOwnerId, Guid positionId,
                         LeadStatusEnum leadStatus, LifecycleStageEnum lifecycleStageEnum,
                         CustomerSource customerSource, Guid? companyId, Guid? industryId, int? leadScored, string? avatar)
     {
@@ -69,7 +69,7 @@ public class Contact : Entity<Guid>, IAggregateRoot
 
     #region Business Logic
 
-    public static Contact Create(string name, string code, Guid contactOwnerId, Guid positionId,
+    public static Contact Create(string name, string code, Guid? contactOwnerId, Guid positionId,
                                  LeadStatusEnum leadStatus, LifecycleStageEnum lifecycleStageEnum,
                                  CustomerSource customerSource, Guid? companyId, Guid? industry, int? leadScored, string? avatar)
     {

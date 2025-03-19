@@ -3,3 +3,4 @@ global using System.Data;
 global using FDS.CRM.Domain.Entities;
 global using System.Linq.Expressions;
 global using FDS.CRM.Domain.Enums;
+global using Microsoft.EntityFrameworkCore;

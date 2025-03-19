@@ -121,7 +121,7 @@ namespace FDS.CRM.Migration.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PaymentMethodName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -136,6 +136,29 @@ namespace FDS.CRM.Migration.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentTerms",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Sortby = table.Column<int>(type: "int", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserNameCreated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UserNameUpdated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Filter = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField1 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField2 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField3 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentTerms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,7 +221,7 @@ namespace FDS.CRM.Migration.Migrations
                     DealId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     QuoteStatus = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,3)", precision: 18, scale: 3, nullable: false),
                     PaymentTermId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -299,6 +322,33 @@ namespace FDS.CRM.Migration.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ticket", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vouchers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newsequentialid()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CountUse = table.Column<int>(type: "int", nullable: false),
+                    VoucherType = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,3)", precision: 18, scale: 3, nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserNameCreated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UserNameUpdated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Filter = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField1 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField2 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField3 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vouchers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -461,6 +511,36 @@ namespace FDS.CRM.Migration.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TicketRelations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RelationshipType = table.Column<int>(type: "int", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
+                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserNameCreated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UserNameUpdated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Filter = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField1 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField2 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ExtraField3 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketRelations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketRelations_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -475,6 +555,7 @@ namespace FDS.CRM.Migration.Migrations
                     Vat = table.Column<int>(type: "int", nullable: false),
                     IsCheckInventoty = table.Column<bool>(type: "bit", nullable: false),
                     ProductUnit = table.Column<int>(type: "int", nullable: false),
+                    VoucherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -501,34 +582,10 @@ namespace FDS.CRM.Migration.Migrations
                         principalTable: "Suppliers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TicketRelations",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RelationshipType = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
-                    CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    UserNameCreated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    UserNameUpdated = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Filter = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ExtraField1 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ExtraField2 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ExtraField3 = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TicketRelations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TicketRelations_Ticket_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Ticket",
+                        name: "FK_Products_Vouchers_VoucherId",
+                        column: x => x.VoucherId,
+                        principalTable: "Vouchers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -590,7 +647,7 @@ namespace FDS.CRM.Migration.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -604,10 +661,11 @@ namespace FDS.CRM.Migration.Migrations
                     TaxCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     AnnualRevenue = table.Column<double>(type: "float", nullable: true),
                     NumberOfEmployees = table.Column<int>(type: "int", nullable: true),
-                    CompanyOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CompanyOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IndustryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CompanyType = table.Column<int>(type: "int", nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Avatar = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -623,11 +681,15 @@ namespace FDS.CRM.Migration.Migrations
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Companies_CommonSettings_IndustryId",
+                        column: x => x.IndustryId,
+                        principalTable: "CommonSettings",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Companies_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -671,7 +733,7 @@ namespace FDS.CRM.Migration.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -907,15 +969,15 @@ namespace FDS.CRM.Migration.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ContactOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContactOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LeadStatus = table.Column<int>(type: "int", nullable: false),
                     LifecycleStageEnum = table.Column<int>(type: "int", nullable: false),
                     CustomerSource = table.Column<int>(type: "int", nullable: false),
-                    Industry = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CommonSettingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IndustryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LeadScored = table.Column<int>(type: "int", nullable: true),
+                    Avatar = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -931,11 +993,10 @@ namespace FDS.CRM.Migration.Migrations
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacts_CommonSettings_CommonSettingId",
-                        column: x => x.CommonSettingId,
+                        name: "FK_Contacts_CommonSettings_IndustryId",
+                        column: x => x.IndustryId,
                         principalTable: "CommonSettings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Contacts_Companies_CompanyId",
                         column: x => x.CompanyId,
@@ -951,8 +1012,7 @@ namespace FDS.CRM.Migration.Migrations
                         name: "FK_Contacts_Users_ContactOwnerId",
                         column: x => x.ContactOwnerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -990,6 +1050,7 @@ namespace FDS.CRM.Migration.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -1032,7 +1093,7 @@ namespace FDS.CRM.Migration.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1046,7 +1107,7 @@ namespace FDS.CRM.Migration.Migrations
                     ProvinceId = table.Column<string>(type: "nvarchar(26)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AddressType = table.Column<int>(type: "int", nullable: false),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -1071,8 +1132,7 @@ namespace FDS.CRM.Migration.Migrations
                         name: "FK_Address_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Address_district_DistrictId",
                         column: x => x.DistrictId,
@@ -1193,7 +1253,7 @@ namespace FDS.CRM.Migration.Migrations
                     ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BuyPaymentMethodId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BuyPaymentTermId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SaleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SaleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -1215,11 +1275,22 @@ namespace FDS.CRM.Migration.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_PurchaseTransactions_PaymentMethods_BuyPaymentMethodId",
+                        column: x => x.BuyPaymentMethodId,
+                        principalTable: "PaymentMethods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PurchaseTransactions_PaymentTerms_BuyPaymentTermId",
+                        column: x => x.BuyPaymentTermId,
+                        principalTable: "PaymentTerms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_PurchaseTransactions_Users_SaleId",
                         column: x => x.SaleId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1233,7 +1304,6 @@ namespace FDS.CRM.Migration.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActivityStatus = table.Column<int>(type: "int", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -1255,12 +1325,6 @@ namespace FDS.CRM.Migration.Migrations
                         principalTable: "Activities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivityAppointments_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1271,7 +1335,6 @@ namespace FDS.CRM.Migration.Migrations
                     ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CallDuration = table.Column<int>(type: "int", nullable: false),
                     CallResult = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -1292,12 +1355,6 @@ namespace FDS.CRM.Migration.Migrations
                         principalTable: "Activities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ActivityCalls_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1338,7 +1395,6 @@ namespace FDS.CRM.Migration.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
@@ -1429,7 +1485,7 @@ namespace FDS.CRM.Migration.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActivityTask",
+                name: "ActivityTasks",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1438,7 +1494,6 @@ namespace FDS.CRM.Migration.Migrations
                     Priority = table.Column<int>(type: "int", nullable: false),
                     CompletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActivityTaskType = table.Column<int>(type: "int", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -1453,9 +1508,9 @@ namespace FDS.CRM.Migration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActivityTask", x => x.Id);
+                    table.PrimaryKey("PK_ActivityTasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ActivityTask_Activities_ActivityId",
+                        name: "FK_ActivityTasks_Activities_ActivityId",
                         column: x => x.ActivityId,
                         principalTable: "Activities",
                         principalColumn: "Id",
@@ -1518,19 +1573,9 @@ namespace FDS.CRM.Migration.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityAppointments_OwnerId",
-                table: "ActivityAppointments",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ActivityCalls_ActivityId",
                 table: "ActivityCalls",
                 column: "ActivityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityCalls_OwnerId",
-                table: "ActivityCalls",
-                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActivityEmails_ActivityId",
@@ -1558,8 +1603,8 @@ namespace FDS.CRM.Migration.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActivityTask_ActivityId",
-                table: "ActivityTask",
+                name: "IX_ActivityTasks_ActivityId",
+                table: "ActivityTasks",
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
@@ -1593,6 +1638,11 @@ namespace FDS.CRM.Migration.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Companies_IndustryId",
+                table: "Companies",
+                column: "IndustryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Companies_OwnerId",
                 table: "Companies",
                 column: "OwnerId");
@@ -1608,11 +1658,6 @@ namespace FDS.CRM.Migration.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contacts_CommonSettingId",
-                table: "Contacts",
-                column: "CommonSettingId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Contacts_CompanyId",
                 table: "Contacts",
                 column: "CompanyId");
@@ -1621,6 +1666,11 @@ namespace FDS.CRM.Migration.Migrations
                 name: "IX_Contacts_ContactOwnerId",
                 table: "Contacts",
                 column: "ContactOwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contacts_IndustryId",
+                table: "Contacts",
+                column: "IndustryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contacts_PositionId",
@@ -1683,9 +1733,24 @@ namespace FDS.CRM.Migration.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_VoucherId",
+                table: "Products",
+                column: "VoucherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_province_administrative_unit_id",
                 table: "province",
                 column: "administrative_unit_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseTransactions_BuyPaymentMethodId",
+                table: "PurchaseTransactions",
+                column: "BuyPaymentMethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseTransactions_BuyPaymentTermId",
+                table: "PurchaseTransactions",
+                column: "BuyPaymentTermId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseTransactions_ContactId",
@@ -1783,7 +1848,7 @@ namespace FDS.CRM.Migration.Migrations
                 name: "ActivitySms");
 
             migrationBuilder.DropTable(
-                name: "ActivityTask");
+                name: "ActivityTasks");
 
             migrationBuilder.DropTable(
                 name: "Address");
@@ -1808,9 +1873,6 @@ namespace FDS.CRM.Migration.Migrations
 
             migrationBuilder.DropTable(
                 name: "PasswordHistory");
-
-            migrationBuilder.DropTable(
-                name: "PaymentMethods");
 
             migrationBuilder.DropTable(
                 name: "Pipelines");
@@ -1849,6 +1911,12 @@ namespace FDS.CRM.Migration.Migrations
                 name: "OrderConfigs");
 
             migrationBuilder.DropTable(
+                name: "PaymentMethods");
+
+            migrationBuilder.DropTable(
+                name: "PaymentTerms");
+
+            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
@@ -1876,13 +1944,13 @@ namespace FDS.CRM.Migration.Migrations
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
+                name: "Vouchers");
+
+            migrationBuilder.DropTable(
                 name: "PipelineStages");
 
             migrationBuilder.DropTable(
                 name: "province");
-
-            migrationBuilder.DropTable(
-                name: "CommonSettings");
 
             migrationBuilder.DropTable(
                 name: "Companies");
@@ -1892,6 +1960,9 @@ namespace FDS.CRM.Migration.Migrations
 
             migrationBuilder.DropTable(
                 name: "AdministrativeUnit");
+
+            migrationBuilder.DropTable(
+                name: "CommonSettings");
 
             migrationBuilder.DropTable(
                 name: "Users");

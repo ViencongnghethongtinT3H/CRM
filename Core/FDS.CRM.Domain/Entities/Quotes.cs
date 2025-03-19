@@ -12,6 +12,8 @@ public class Quotes : Entity<Guid>, IAggregateRoot
     public Guid DealId { get; set; }   // link vs bảng cơ hội
     public Guid ContactId { get; set; }   // link vs bảng cơ hội
     public QuoteStatus QuoteStatus { get; set; }
+
+    [Precision(18, 3)]
     public decimal Amount { get; set; }
     public Guid PaymentTermId { get; set; }   // link vs bảng điều khoản thanh toán
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FDS.CRM.Migration.Migrations
 {
     [DbContext(typeof(CrmDbContext))]
-    [Migration("20250304110518_ChangePaymentMethod")]
-    partial class ChangePaymentMethod
+    [Migration("20250319135053_CreateDatabase")]
+    partial class CreateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,11 @@ namespace FDS.CRM.Migration.Migrations
 
                     b.Property<Guid?>("TicketId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("UpdatedDateTime")
                         .HasColumnType("datetimeoffset");
@@ -367,10 +372,6 @@ namespace FDS.CRM.Migration.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("UpdatedDateTime")
                         .HasColumnType("datetimeoffset");
@@ -663,7 +664,7 @@ namespace FDS.CRM.Migration.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.ToTable("ActivityTask");
+                    b.ToTable("ActivityTasks");
                 });
 
             modelBuilder.Entity("FDS.CRM.Domain.Entities.Address", b =>
@@ -1042,7 +1043,7 @@ namespace FDS.CRM.Migration.Migrations
                     b.Property<int?>("NumberOfEmployees")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("RowVersion")
@@ -1158,7 +1159,7 @@ namespace FDS.CRM.Migration.Migrations
                     b.Property<Guid?>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ContactOwnerId")
+                    b.Property<Guid?>("ContactOwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedDateTime")
@@ -2165,11 +2166,16 @@ namespace FDS.CRM.Migration.Migrations
                     b.Property<int>("Vat")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("VoucherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("SupplierId");
+
+                    b.HasIndex("VoucherId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -2264,7 +2270,7 @@ namespace FDS.CRM.Migration.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<Guid>("SaleId")
+                    b.Property<Guid?>("SaleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedDateTime")
@@ -2441,7 +2447,8 @@ namespace FDS.CRM.Migration.Migrations
                         .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 3)
+                        .HasColumnType("decimal(18,3)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -3188,6 +3195,77 @@ namespace FDS.CRM.Migration.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FDS.CRM.Domain.Entities.Voucher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 3)
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<int>("CountUse")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("CreatedDateTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraField1")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ExtraField2")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ExtraField3")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Filter")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTimeOffset?>("UpdatedDateTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UserNameCreated")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UserNameUpdated")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("VoucherType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vouchers", (string)null);
+                });
+
             modelBuilder.Entity("FDS.CRM.Domain.Entities.Ward", b =>
                 {
                     b.Property<string>("Id")
@@ -3432,9 +3510,7 @@ namespace FDS.CRM.Migration.Migrations
 
                     b.HasOne("FDS.CRM.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("CommonSetting");
 
@@ -3460,9 +3536,7 @@ namespace FDS.CRM.Migration.Migrations
 
                     b.HasOne("FDS.CRM.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("ContactOwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactOwnerId");
 
                     b.HasOne("FDS.CRM.Domain.Entities.CommonSetting", "CommonSetting")
                         .WithMany()
@@ -3595,9 +3669,17 @@ namespace FDS.CRM.Migration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FDS.CRM.Domain.Entities.Voucher", "Voucher")
+                        .WithMany("Products")
+                        .HasForeignKey("VoucherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Supplier");
+
+                    b.Navigation("Voucher");
                 });
 
             modelBuilder.Entity("FDS.CRM.Domain.Entities.Province", b =>
@@ -3633,9 +3715,7 @@ namespace FDS.CRM.Migration.Migrations
 
                     b.HasOne("FDS.CRM.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SaleId");
 
                     b.Navigation("Contact");
 
@@ -3878,6 +3958,11 @@ namespace FDS.CRM.Migration.Migrations
                     b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("FDS.CRM.Domain.Entities.Voucher", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

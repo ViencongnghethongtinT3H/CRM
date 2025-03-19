@@ -46,9 +46,6 @@ public class CrmDbContext : DbContext, IUnitOfWork, IDataProtectionKeyContext
     public DbSet<District> Districts { get; set; }   
     public DbSet<Ward> Wards { get; set; }   
     public DbSet<PaymentTerm> PaymentTerms { get; set; }   
-    
-    
-    
 
     public CrmDbContext(DbContextOptions<CrmDbContext> options, ILogger<CrmDbContext> logger)
         : base(options) 

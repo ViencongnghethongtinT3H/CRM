@@ -16,12 +16,12 @@ namespace FDS.CRM.Domain.Entities
         public PaymentTerm PaymentTerm { get; private set; }
 
         [ForeignKey("User")]
-        public Guid SaleId { get; private set; }
-        public User User { get; private set; }
+        public Guid? SaleId { get; private set; }
+        public User? User { get; private set; }
 
         #region Constructor
         private PurchaseTransaction(Guid contactId, Guid buyPaymentMethodId, Guid buyPaymentTermId
-                                    /*Guid salePaymentMethodId, Guid salePaymentTermId*/, Guid saleId)
+                                    /*Guid salePaymentMethodId, Guid salePaymentTermId*/, Guid? saleId)
         {
             Id = Guid.NewGuid();
             ContactId = contactId;
@@ -35,7 +35,7 @@ namespace FDS.CRM.Domain.Entities
 
         #region Business Logic
         public static PurchaseTransaction Create(Guid contactId, Guid buyPaymentMethodId, Guid buyPaymentTermId,
-                                                 /*Guid salePaymentMethodId, Guid salePaymentTermId,*/ Guid saleId)
+                                                 /*Guid salePaymentMethodId, Guid salePaymentTermId,*/ Guid? saleId)
         {
             return new PurchaseTransaction(contactId, buyPaymentMethodId, buyPaymentTermId,/* salePaymentMethodId, salePaymentTermId,*/ saleId);
         }

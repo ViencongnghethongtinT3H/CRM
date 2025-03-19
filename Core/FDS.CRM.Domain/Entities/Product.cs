@@ -1,4 +1,6 @@
-﻿namespace FDS.CRM.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FDS.CRM.Domain.Entities;
 
 public class Product : Entity<Guid>, IAggregateRoot
 {
@@ -21,4 +23,10 @@ public class Product : Entity<Guid>, IAggregateRoot
     public ProductUnit ProductUnit { get; set; }   // Đơn vị tính
 
     public ICollection<QuoteItems> QuoteItems { get; set;}
+
+
+    [ForeignKey("Voucher")]
+    public Guid VoucherId { get; set; }
+    public Voucher Voucher { get; set; }
+   
 }
