@@ -73,6 +73,10 @@ public class ValidationException : Exception
     /// <param name="errorMessage"></param>
     public static void LengthInRange(string value, int minLength, int maxLength, string errorMessage)
     {
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
         Requires(value.Length >= minLength && value.Length <= maxLength, errorMessage);
     }
 
@@ -83,6 +87,10 @@ public class ValidationException : Exception
     /// <param name="errorMessage"></param>
     public static void ValidEmail(string email, string errorMessage)
     {
+        if (string.IsNullOrEmpty(email))
+        {
+            return;
+        }
         Requires(email.Contains("@") && email.Contains("."), errorMessage);
     }
 

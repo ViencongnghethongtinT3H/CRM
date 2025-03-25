@@ -1,5 +1,7 @@
 ﻿using FDS.CRM.Application.Category.Commands;
 using FDS.CRM.Application.Category.DTOs;
+using FDS.CRM.Application.Supplier.Commands;
+using FDS.CRM.Application.Supplier.DTOs;
 
 namespace FDS.CRM.WebApi.Controllers.V1;
 
@@ -66,6 +68,19 @@ public class ProductController : ControllerBase
     {
         // Dispatcher hiểu nôm na là 1 người vận chuyển, nó sẽ chuyển các luồng dữ liệu tới đúng command hoặc query handler 
         await _dispatcher.DispatchAsync(new AddUpdateCategoryCommand { CategoryDto = dto });
+        //   var model = product.ToModel();
+        return Ok();
+    }
+
+    // api/v1/product/suppiler
+    [HttpPost("supplier")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<SupplierDto>> HandleCreateSupplierAsync([FromBody] SupplierDto dto)
+    {
+        // Dispatcher hiểu nôm na là 1 người vận chuyển, nó sẽ chuyển các luồng dữ liệu tới đúng command hoặc query handler 
+        await _dispatcher.DispatchAsync(new AddSupplierCommand { SupplierDto = dto });
         //   var model = product.ToModel();
         return Ok();
     }

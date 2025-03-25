@@ -32,8 +32,6 @@
 	  <Folder Include="Deal\Commands\" />
 	  <Folder Include="Product\Commands\" />
 	  <Folder Include="Product\EventHandlers\" />
-	  <Folder Include="Supplier\Commands\" />
-	  <Folder Include="Supplier\DTOs\" />
 	  <Folder Include="Supplier\EventHandlers\" />
 	  <Folder Include="Supplier\Queries\" />
 	  <Folder Include="Supplier\Services\" />

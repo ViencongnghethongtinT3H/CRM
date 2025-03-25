@@ -14,10 +14,10 @@ internal class GetPagedAuditEntriesQueryHandler : IQueryHandler<GetPagedProducts
 {
     private readonly IProductRepository _productRepository;
     private readonly IRepository<Domain.Entities.Category, Guid> _categoryRepository;
-    private readonly IRepository<Supplier, Guid> _supplierRepository;
+    private readonly IRepository<Domain.Entities.Supplier, Guid> _supplierRepository;
 
     public GetPagedAuditEntriesQueryHandler(IProductRepository productRepository, IRepository<Domain.Entities.Category, Guid> categoryRepository,
-        IRepository<Supplier, Guid> supplierRepository)
+        IRepository<Domain.Entities.Supplier, Guid> supplierRepository)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
