@@ -63,7 +63,8 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [MapToApiVersion("1.0")]
     public async Task<ActionResult<Product>> HandleCreateCategoryAsync([FromBody] CategoryDto dto)
-    {        
+    {
+        // Dispatcher hiểu nôm na là 1 người vận chuyển, nó sẽ chuyển các luồng dữ liệu tới đúng command hoặc query handler 
         await _dispatcher.DispatchAsync(new AddUpdateCategoryCommand { CategoryDto = dto });
         //   var model = product.ToModel();
         return Ok();
