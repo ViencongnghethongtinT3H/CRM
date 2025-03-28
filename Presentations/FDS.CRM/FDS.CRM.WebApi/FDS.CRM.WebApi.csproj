@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\FDS.CRM.Application\FDS.CRM.Application.csproj" />
+    <ProjectReference Include="..\..\..\CrossCuttingConcerns\FDS.CRM.CrossCuttingConcerns\FDS.CRM.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\FDS.CRM.Infrastructure\FDS.CRM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\FDS.CRM.Persistence\FDS.CRM.Persistence.csproj" />
   </ItemGroup>

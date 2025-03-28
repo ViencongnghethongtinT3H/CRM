@@ -1,4 +1,7 @@
-﻿namespace FDS.CRM.Persistence.Repositories;
+﻿using FDS.CRM.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace FDS.CRM.Persistence.Repositories;
 
 public class Repository<T, TKey> : IRepository<T, TKey>
 where T : Entity<TKey>, IAggregateRoot
@@ -110,4 +113,10 @@ where T : Entity<TKey>, IAggregateRoot
     {
         return ex is DbUpdateConcurrencyException;
     }
+
+    public virtual async Task<bool> ExistAsync(Expression<Func<T, bool>>? spec = null)
+    => await (spec == null ? _dbContext.Set<T>().AnyAsync() : _dbContext.Set<T>().AnyAsync(spec));
+
+    public virtual async Task<int> CountAsync(Expression<Func<T, bool>>? spec = null)
+        => await (spec == null ? _dbContext.Set<T>().CountAsync() : _dbContext.Set<T>().CountAsync(spec));
 }

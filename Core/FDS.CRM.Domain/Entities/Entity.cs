@@ -30,5 +30,15 @@ namespace FDS.CRM.Domain.Entities
         //public string? UserNameCreated { get; set; } = HttpContextCustom.Current?.User?.Claims.Where(c => c.Type == "email").FirstOrDefault()?.Value;
         //// UserNameCreated
         //public string? UserNameUpdated { get; set; } = HttpContextCustom.Current?.User?.Claims.Where(c => c.Type == "unique_name").FirstOrDefault()?.Value;
+
+        public Entity()
+        {
+            IsDeleted = false;
+            CreatedDateTime = DateTimeOffset.Now;
+            UpdatedDateTime = DateTimeOffset.Now;
+            UserNameCreated = "System";
+            UserNameUpdated = "System";
+
+        }
     }
 }

@@ -22,4 +22,5 @@ global using FDS.CRM.Application.RelationManager.DTOs;
 global using  FDS.CRM.Application.Users.DTOs;
 global using FDS.CRM.Application.Common.DTOs;
 global using FDS.CRM.Application.Supplier.DTOs;
+global using AutoMapper;
 

@@ -7,6 +7,7 @@ namespace FDS.CRM.Domain.Repositories
     {
         IUnitOfWork UnitOfWork { get; }
 
+        // Trả về đúng DbSet => trả về đúng cái Entity
         IQueryable<TEntity> GetQueryableSet();
 
         Task AddOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
@@ -22,6 +23,9 @@ namespace FDS.CRM.Domain.Repositories
         Task<T> SingleOrDefaultAsync<T>(IQueryable<T> query);
 
         Task<List<T>> ToListAsync<T>(IQueryable<T> query);
+
+        Task<bool> ExistAsync(Expression<Func<TEntity, bool>>? spec = null);
+        Task<int> CountAsync(Expression<Func<TEntity, bool>>? spec = null);
 
         void BulkInsert(IEnumerable<TEntity> entities);
 

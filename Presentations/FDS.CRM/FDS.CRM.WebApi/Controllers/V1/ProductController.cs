@@ -2,6 +2,7 @@
 using FDS.CRM.Application.Category.DTOs;
 using FDS.CRM.Application.Supplier.Commands;
 using FDS.CRM.Application.Supplier.DTOs;
+using FDS.CRM.Application.Supplier.Queries;
 
 namespace FDS.CRM.WebApi.Controllers.V1;
 
@@ -58,6 +59,20 @@ public class ProductController : ControllerBase
         var product = await _dispatcher.DispatchAsync(new GetProductQuery { Id = id, ThrowNotFoundIfNull = true });
         //   var model = product.ToModel();
         return Ok(product);
+    }
+    
+    // api/v1/product/supplier/id
+    [HttpGet("supplier/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<Product>> GetSupplierById(Guid id)
+    {
+        ValidationException.Requires(id != Guid.Empty, "Invalid Id");
+
+        var supplier = await _dispatcher.DispatchAsync(new GetSupplierQuery { Id = id });
+        //   var model = product.ToModel();
+        return Ok(supplier);
     }
 
     [HttpPost("category")]

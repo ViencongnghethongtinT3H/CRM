@@ -1,13 +1,3 @@
-using FDS.CRM.Infrastructure.Web.ExceptionHandlers;
-using FDS.CRM.WebApi;
-using FDS.CRM.WebApi.ConfigurationOptions;
-using FDS.CRM.Persistence;
-using FDS.CRM.Infrastructure.DateTimes;
-using FDS.CRM.Infrastructure.Interceptors;
-using FDS.CRM.Infrastructure.Logging;
-using FDS.CRM.Infrastructure.Identity;
-using Microsoft.AspNetCore.DataProtection;
-
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
@@ -59,6 +49,14 @@ services.AddDataProtection()
 services.AddIdentityCore();
 
 services.AddDateTimeProvider();
+
+var mapperConfig = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile<MappingModel>();
+});
+ services.AddSingleton(mapperConfig.CreateMapper().RegisterMap());
+services.AddSingleton(sp => sp.GetRequiredService<IMapper>().ConfigurationProvider);
+
 
 //services.AddEndpointsApiExplorer();
 //services.AddSwaggerGen(setupAction =>
