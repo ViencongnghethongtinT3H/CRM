@@ -1,5 +1,7 @@
 ﻿
 
+using System.ComponentModel;
+
 namespace FDS.CRM.Domain.Entities
 {
     public abstract class Entity<TKey> : IHasKey<TKey>, ITrackable
@@ -26,6 +28,7 @@ namespace FDS.CRM.Domain.Entities
         public string? ExtraField2 { get; set; }
         [StringLength(1000)]
         public string? ExtraField3 { get; set; }
+        public Status Status { get; set; } = Status.Active;
 
         //public string? UserNameCreated { get; set; } = HttpContextCustom.Current?.User?.Claims.Where(c => c.Type == "email").FirstOrDefault()?.Value;
         //// UserNameCreated
@@ -40,5 +43,14 @@ namespace FDS.CRM.Domain.Entities
             UserNameUpdated = "System";
 
         }
+    }
+    public enum Status
+    {
+        [Description("Tất cả")]
+        All = 0,
+        [Description("Đang hoạt động")]
+        Active = 1,
+        [Description("Ngừng hoạt động")]
+        Inactive = 2,
     }
 }

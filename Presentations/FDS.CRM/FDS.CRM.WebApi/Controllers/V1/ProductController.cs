@@ -1,5 +1,6 @@
 ﻿using FDS.CRM.Application.Category.Commands;
 using FDS.CRM.Application.Category.DTOs;
+using FDS.CRM.Application.Contact.Queries;
 using FDS.CRM.Application.Supplier.Commands;
 using FDS.CRM.Application.Supplier.DTOs;
 using FDS.CRM.Application.Supplier.Queries;
@@ -98,5 +99,17 @@ public class ProductController : ControllerBase
         await _dispatcher.DispatchAsync(new AddSupplierCommand { SupplierDto = dto });
         //   var model = product.ToModel();
         return Ok();
+    }
+
+    [HttpGet("search-supplier")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<SearchResponseModel<SearchContactDto>>> SearchContactsAsync(
+        [FromQuery] SearchSupplierQueryParams queryParams)
+    {
+        var query = new SeachSupplierQuery(queryParams);
+        var result = await _dispatcher.DispatchAsync(query);
+        return Ok(result);
     }
 }

@@ -3,6 +3,7 @@
 public class SearchSupplierQueryParams
 {
     public string? Name { get; set; }
+    public int Status { get; set; }  // Mặc định Status này sẽ có giá trị là tất cả = 0
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
     public string? SortField { get; set; }
@@ -21,6 +22,14 @@ public class SearchSupplierQueryParams
                 Value = Name
             });
         }
+
+        conditions.Add(new SearchCondition
+        {
+            Field = "Status",
+            Operator = "==",
+            Value = Status
+        });
+
         return new SearchRequestModel
         {
             PageNumber = PageNumber,
