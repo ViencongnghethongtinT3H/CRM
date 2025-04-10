@@ -8,10 +8,10 @@ public record ResultModel<T>(T Data, bool IsError = false, string ErrorMessage =
     }
 }
 
-public record ListResultModel<T>(List<T> Items, long TotalItems, int Page, int PageSize) where T : notnull
+public record ListResultModel<T>(List<T> Items, long TotalItems, int CurrentPage, int PageSize, int TotalPages) where T : notnull
 {
-    public static ListResultModel<T> Create(List<T> items, long totalItems = 0, int page = 1, int pageSize = 20)
+    public static ListResultModel<T> Create(List<T> items, long totalItems = 0, int currentPage = 1, int pageSize = 20, int totalPages = 1)
     {
-        return new(items, totalItems, page, pageSize);
+        return new(items, totalItems, currentPage, pageSize, totalPages);
     }
 }

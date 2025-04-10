@@ -28,7 +28,7 @@ public class SeachSupplierQuery : BaseSearchQuery<Domain.Entities.Supplier, Sear
     {
         return condition switch
         {
-            { Field: "name", Operator: "contains" } =>
+            { Field: "Name", Operator: "contains" } =>
                 x => x.Name.Contains((string)condition.Value),
 
             { Field: "Status", Operator: "==" } =>
@@ -56,16 +56,11 @@ public class SearchSupplierQueryHandler : BaseSearchQueryHandler<Domain.Entities
     {
     }
 
-    public override async Task<SearchResponseModel<SearchSupplierResponse>> HandleAsync(
+    public override async Task<ListResultModel<SearchSupplierResponse>> HandleAsync(
        SeachSupplierQuery query,
        CancellationToken cancellationToken = default)
-    {
-        //    IQueryHandler<SeachSupplierQuery, SearchResponseModel<SearchSupplierResponse>> handler =
-        //new SearchSupplierQueryHandler(_crudService);
-
-        //    var result = await handler.HandleAsync(query, cancellationToken);
+    {      
         var result =  await base.HandleAsync(query, cancellationToken);
-
         return result;
     }
 }

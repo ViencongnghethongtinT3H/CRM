@@ -34,5 +34,10 @@ public class Supplier : Entity<Guid>, IAggregateRoot
         };
     }
 
+    public void SetFilter(string filter)
+    {
+        Filter = filter;
+    }
+
     #endregion
 }

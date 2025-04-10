@@ -77,7 +77,7 @@ namespace FDS.CRM.Application.Contact.Queries
 
         }
 
-        public override async Task<SearchResponseModel<SearchContactDto>> HandleAsync(
+        public override async Task<ListResultModel<SearchContactDto>> HandleAsync(
             SearchContactQuery query,
             CancellationToken cancellationToken = default)
         {
@@ -118,13 +118,10 @@ namespace FDS.CRM.Application.Contact.Queries
                 .Take(query.SearchRequest.PageSize)                
                 .ToListAsync(cancellationToken);
 
-            return new SearchResponseModel<SearchContactDto>
-            {
-                Items = items,
-                TotalItems = totalItems,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)query.SearchRequest.PageSize),
-                CurrentPage = query.SearchRequest.PageNumber
-            };
+            //return ListResultModel.Create(items, totalItems, query.SearchRequest.PageNumber, query.SearchRequest.PageSize,
+            //(int)Math.Ceiling(totalItems / (double)query.SearchRequest.PageSize), 13, 475);
+            return null;
+            
         }
 
         protected async Task<IQueryable<Domain.Entities.Contact>> PrepareBaseQueryAsync(

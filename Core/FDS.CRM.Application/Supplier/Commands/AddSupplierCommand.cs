@@ -1,4 +1,7 @@
-﻿namespace FDS.CRM.Application.Supplier.Commands;
+﻿using FDS.CRM.CrossCuttingConcerns.Helper;
+using FDS.CRM.Domain.Entities;
+
+namespace FDS.CRM.Application.Supplier.Commands;
 
 public class AddSupplierCommand : ICommand
 {
@@ -48,6 +51,10 @@ internal class AddSupplierCommandHandler : ICommandHandler<AddSupplierCommand>
         {
             var supplier = Domain.Entities.Supplier.Create(command.SupplierDto.Name, command.SupplierDto.Code, command.SupplierDto.Tax, command.SupplierDto.Address,
                 command.SupplierDto.PhoneNumber, command.SupplierDto.Email);
+
+            var filterField = new List<string> { command.SupplierDto.Name, command.SupplierDto.Code, command.SupplierDto.Address };
+            
+            supplier.SetFilter(StringHelpers.SetFilterField(filterField));
 
             await _supplierService.AddAsync(supplier);
 
