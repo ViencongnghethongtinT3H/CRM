@@ -4,6 +4,7 @@ using FDS.CRM.Application.Contact.Queries;
 using FDS.CRM.Application.Supplier.Commands;
 using FDS.CRM.Application.Supplier.DTOs;
 using FDS.CRM.Application.Supplier.Queries;
+using System.Threading;
 
 namespace FDS.CRM.WebApi.Controllers.V1;
 
@@ -111,5 +112,23 @@ public class ProductController : ControllerBase
         var query = new SeachSupplierQuery(queryParams);
         var result = await _dispatcher.DispatchAsync(query);
         return Ok(result);
+    }
+
+    [HttpGet("supplier-by-name")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<SearchResponseModel<SearchContactDto>>> SearchSupplierByNameAsync([FromQuery] string? name, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _dispatcher.DispatchAsync(new GetSupplierByNameQuery { Name = name }, cancellationToken);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception($"error: {ex.Message}");
+        }
     }
 }
