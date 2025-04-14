@@ -4,7 +4,7 @@
     // Nơi lưu trữ key tập trung
     public static class RedisKeyConstants
     {
-        public const string GetCustomerById = "GetCustomerById";
+        public const string GetPosition = "Position";
         public const string GetCustomerByCodeAndVersion = "GetCustomerByCodeAndVersion";
     }
 }

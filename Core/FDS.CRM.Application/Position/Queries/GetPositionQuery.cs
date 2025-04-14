@@ -1,6 +1,9 @@
 ﻿using FDS.CRM.Application.Common.DTOs;
 using FDS.CRM.Application.Position.DTOs;
+using FDS.CRM.CrossCuttingConcerns.Cache.Constants;
+using FDS.CRM.CrossCuttingConcerns.Cache.RedisCache;
 using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 
 namespace FDS.CRM.Application.Position.Queries
 {
@@ -20,31 +23,24 @@ namespace FDS.CRM.Application.Position.Queries
 
         public async Task<ResultModel<List<PositionDto>>> HandleAsync(GetPositionQuery query, CancellationToken cancellationToken)
         {
-            //var positions = await _positionRepository.GetGroupedPositionsAsync();
-
-            //var result = positions
-            //    .GroupBy(p => p.Department)
-            //    .Select(g => new PositionGroupDto
-            //    {
-            //        DepartmentId = g.Key.Id,
-            //        DepartmentName = g.Key.Name,
-            //        Positions = g.Select(p => new PositionDto
-            //        {
-            //            Id = p.Id,
-            //            Title = p.Title
-            //        }).ToList()
-            //    })
-            //    .ToList();
-
-            var result = await _positionRepository.GetQueryableSet()
-                    .GroupBy(p => p.Title) 
-                        .Select(g => new PositionDto
-                        {
-                            Id = g.Min(p => p.Id),  
-                            Title = g.Key  
-                        })
-                    .ToListAsync();
-
+            var result = new List<PositionDto>();
+            var redisKey = RedisKeyConstants.GetPosition;
+            if (await RedisConnection.Connection.ExistsAsync(redisKey))
+            {
+                result = await RedisConnection.Connection.GetAsync<List<PositionDto>>(redisKey);                
+            }
+            else
+            {
+                 result = await _positionRepository.GetQueryableSet()
+                   .GroupBy(p => p.Title)
+                       .Select(g => new PositionDto
+                       {
+                           Id = g.Min(p => p.Id),
+                           Title = g.Key
+                       })
+                   .ToListAsync();
+                await RedisConnection.Connection.AddAsync(redisKey, result);
+            }
             return ResultModel<List<PositionDto>>.Create(result);
         }
     }
